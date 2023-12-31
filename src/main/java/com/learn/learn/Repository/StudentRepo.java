@@ -1,5 +1,7 @@
 package com.learn.learn.Repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -10,7 +12,11 @@ import com.learn.learn.Model.Student;
 public interface StudentRepo extends JpaRepository<Student,String>{
 
     @Modifying
-    @Query("update Student s set s.name=:newname where s.reg_no=:reg_no")
-    String updateStudentByRegNo(@Param("newname")String newname,@Param("reg_no") String reg_no);
+    @Query("UPDATE Student s SET s.name = :newName WHERE s.regNo = :regNo")
+    String updateStudentByRegNo(@Param("newName") String newName, @Param("regNo") String regNo);
     
+    
+
+    List<Student> findByRegNoIn(List<String> regNos);
+
 }

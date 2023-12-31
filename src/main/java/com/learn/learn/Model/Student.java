@@ -12,7 +12,8 @@ public class Student {
 
     
     @Id
-    private String reg_no;
+    @Column(name="reg_no")
+    private String regNo;
 
     private String name;
 
@@ -40,12 +41,12 @@ public class Student {
     @OneToMany(mappedBy="student")
     private List<Attendance> attendance;
 
-    public String getReg_no() {
-        return reg_no;
+    public String getRegNo() {
+        return regNo;
     }
 
-    public void setReg_no(String reg_no) {
-        this.reg_no = reg_no;
+    public void setRegNo(String regNo) {
+        this.regNo = regNo;
     }
 
     public String getName() {
@@ -143,6 +144,7 @@ public class Student {
     public void setAttendance(List<Attendance> attendance) {
         this.attendance = attendance;
     }
+
 
 
     

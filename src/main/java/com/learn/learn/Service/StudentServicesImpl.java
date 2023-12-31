@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learn.learn.Exception.StudentNotFoundException;
+import com.learn.learn.Model.Attendance;
 import com.learn.learn.Model.Student;
 import com.learn.learn.Repository.StudentRepo;
 
@@ -18,10 +19,18 @@ public class StudentServicesImpl implements StudentServices {
     @Autowired
     private StudentRepo studentRepo;
 
+    private AttendanceServices attendanceService;
+    private MarksServices marksService;
+
+    public StudentServicesImpl(AttendanceServices attendanceService,MarksServices marksServices){
+        this.attendanceService=attendanceService;
+        this.marksService=marksServices;
+    }
+
 
     @Override
     public String saveStudent(Student s){
-        String reg_no=studentRepo.save(s).getReg_no();
+        String reg_no=studentRepo.save(s).getRegNo();        
         return reg_no;
     }
 

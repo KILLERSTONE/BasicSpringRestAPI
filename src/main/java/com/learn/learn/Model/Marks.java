@@ -14,7 +14,7 @@ public class Marks {
 
     private String subject ;
 
-    private LocalDate doe;
+    private LocalDate examDate;
 
     private Integer marks;
 
@@ -45,12 +45,12 @@ public class Marks {
 
 
     public LocalDate getDoe() {
-        return doe;
+        return examDate;
     }
 
 
-    public void setDoe(LocalDate doe) {
-        this.doe = doe;
+    public void setDoe(LocalDate examDate) {
+        this.examDate = examDate;
     }
 
 

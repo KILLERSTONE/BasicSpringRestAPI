@@ -11,7 +11,7 @@ public interface AttendanceServices {
     List<Attendance> getAttendance(String reg_no);
     List<Attendance> getDayAttendance(LocalDate date);
 
-    void markAttendanceForStudentsOnDate(List<String> regNos,LocalDate date);
+    void markAttendanceForStudentsOnDate(List<String> regNos,LocalDate date,String status);
 
     
 }
