@@ -34,11 +34,6 @@ public class StudentController {
     @Autowired
     private AttendanceServices attendanceService;
 
-    @GetMapping("/")
-    public String index(){
-        return "index";
-    }
-
     @PostMapping("/student")
     public ResponseEntity<?> saveStudents(@RequestBody Student std) {
 
