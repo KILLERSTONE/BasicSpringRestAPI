@@ -17,6 +17,7 @@ public class AttendanceServiceImpl implements AttendanceServices{
     
     @Autowired
     private AttendanceRepo attdRepo;
+    @Autowired
     private StudentRepo stdRepo;
 
     @Override
@@ -25,7 +26,7 @@ public class AttendanceServiceImpl implements AttendanceServices{
 
         if(std==null)throw new StudentNotFoundException("No student of this reg no exists");
 
-
+        
         Attendance attd=attdRepo.findByStudentAndDate(std,att.getDate());
 
         if(attd==null){

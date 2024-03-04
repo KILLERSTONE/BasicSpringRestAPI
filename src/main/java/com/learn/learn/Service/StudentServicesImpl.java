@@ -48,11 +48,7 @@ public class StudentServicesImpl implements StudentServices {
     @Override
     public Student returnStudent(String reg){
         Student std=studentRepo.findById(reg).
-        orElseThrow(()->new StudentNotFoundException(new StringBuffer()
-        .append("Student '")
-        .append(reg)
-        .append("' doesn't exist")
-        .toString()));
+        orElseThrow(()->null);
 
         return std;
     }

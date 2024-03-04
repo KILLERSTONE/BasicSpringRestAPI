@@ -145,7 +145,18 @@ public class Student {
         this.attendance = attendance;
     }
 
-
+    public void updateStudentInfo(Student updatedStudent) {
+        this.setName(updatedStudent.getName());
+        this.setDob(updatedStudent.getDob());
+        this.setGender(updatedStudent.getGender());
+        this.setAddress(updatedStudent.getAddress());
+        this.setPhone_no(updatedStudent.getPhone_no());
+        this.setEmail(updatedStudent.getEmail());
+        this.setGuardianName(updatedStudent.getGuardianName());
+        this.setGuardianPhone(updatedStudent.getGuardianPhone());
+        this.setDoj(updatedStudent.getDoj());
+        this.setBranch(updatedStudent.getBranch());
+    }
 
     
 }

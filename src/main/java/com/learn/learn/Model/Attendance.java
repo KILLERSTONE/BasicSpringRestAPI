@@ -53,5 +53,4 @@ public class Attendance {
         this.student = student;
     }
 
-    
 }

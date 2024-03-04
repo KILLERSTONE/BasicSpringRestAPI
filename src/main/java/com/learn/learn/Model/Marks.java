@@ -12,7 +12,7 @@ public class Marks {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
-    private String subject ;
+    private String subject;
 
     private LocalDate examDate;
 
@@ -44,12 +44,12 @@ public class Marks {
     }
 
 
-    public LocalDate getDoe() {
+    public LocalDate getExamDate() {
         return examDate;
     }
 
 
-    public void setDoe(LocalDate examDate) {
+    public void setExamDate(LocalDate examDate) {
         this.examDate = examDate;
     }
 

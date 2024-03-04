@@ -18,7 +18,9 @@ public class MarksServiceImpl implements MarksServices {
 
     @Autowired
     private MarksRepo marksRepo;
+    @Autowired
     private StudentRepo stdRepo;
+
 
     @Override
     public void setMarks(String reg_no, Marks marks) {
@@ -29,10 +31,10 @@ public class MarksServiceImpl implements MarksServices {
 
         if(m==null){
             m=new Marks();
-            m.setDoe(marks.getDoe());
+            m.setExamDate(marks.getExamDate());
             m.setMarks(marks.getMarks());
             m.setStudent(std);
-            m.setStudent(marks.getStudent());
+            m.setSubject(marks.getSubject());
         }
         else{
             m.setMarks(marks.getMarks());
@@ -68,7 +70,7 @@ public class MarksServiceImpl implements MarksServices {
 
             if(m==null){
                 m=new Marks();
-                m.setDoe(examDate);
+                m.setExamDate(examDate);
                 m.setMarks(marks);
                 m.setStudent(std);
                 m.setSubject(subject);
