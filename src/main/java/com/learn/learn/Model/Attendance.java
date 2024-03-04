@@ -3,6 +3,8 @@ package com.learn.learn.Model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +19,7 @@ public class Attendance {
 
     private String status;
 
+    @JsonBackReference
     @ManyToOne
     @JoinTable(name="student_reg_no")
     private Student student;

@@ -2,6 +2,8 @@ package com.learn.learn.Model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -18,7 +20,7 @@ public class Marks {
 
     private Integer marks;
 
-
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="student_reg_no")
     private Student student;

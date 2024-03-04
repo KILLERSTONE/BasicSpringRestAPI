@@ -1,6 +1,7 @@
 package com.learn.learn.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,16 +48,15 @@ public class StudentServicesImpl implements StudentServices {
 
     @Override
     public Student returnStudent(String reg){
-        Student std=studentRepo.findById(reg).
-        orElseThrow(()->null);
-
-        return std;
-    }
+        Optional<Student> optionalStudent = studentRepo.findById(reg);
+        return optionalStudent.orElse(null); 
+        }
+    
+    
 
     @Override
     public List<Student> returnAllStudents(){
         return studentRepo.findAll();
-
     }
 
     @Override

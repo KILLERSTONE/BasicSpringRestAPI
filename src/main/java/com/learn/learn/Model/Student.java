@@ -3,6 +3,8 @@ package com.learn.learn.Model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 
@@ -35,9 +37,11 @@ public class Student {
 
     private String branch;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="student")
     private List<Marks> marks;
     
+    @JsonManagedReference
     @OneToMany(mappedBy="student")
     private List<Attendance> attendance;
 

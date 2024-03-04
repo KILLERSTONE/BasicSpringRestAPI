@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,104 +10,95 @@
     <!-- Tailwind CSS (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100">
 
-<div class="container mx-auto py-4">
-    <h1 class="text-center text-2xl font-bold mb-4">Student Information</h1>
+    <div class="container mx-auto py-4">
+        <h1 class="text-center text-2xl font-bold mb-4">Student Information</h1>
 
-    <!-- Student Information -->
-    <div class="bg-white rounded-lg shadow-lg p-4 mb-4">
-        <h2 class="text-lg font-semibold mb-2">Student Details</h2>
-        <p><strong>Registration Number:</strong> <span id="regNo"></span></p>
-        <p><strong>Name:</strong> <span id="name"></span></p>
-        <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
-        <p><strong>Gender:</strong> <span id="gender"></span></p>
-        <p><strong>Address:</strong> <span id="address"></span></p>
-        <p><strong>Phone Number:</strong> <span id="phoneNo"></span></p>
-        <p><strong>Email:</strong> <span id="email"></span></p>
-        <p><strong>Guardian Name:</strong> <span id="guardianName"></span></p>
-        <p><strong>Guardian Phone:</strong> <span id="guardianPhone"></span></p>
-        <p><strong>Date of Joining:</strong> <span id="doj"></span></p>
-        <p><strong>Branch:</strong> <span id="branch"></span></p>
+        <!-- Student Information -->
+        <div id="studentDetails" class="bg-white rounded-lg shadow-lg p-4 mb-4">
+            <h2 class="text-lg font-semibold mb-2">Student Details</h2>
+            <p><strong>Registration Number:</strong> <input type="text" id="regNoInput"></p>
+            <button onclick="fetchAndDisplayStudentDetails()">Get Details</button>
+            <hr>
+            <p><strong>Name:</strong> <span id="name"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
+            <p><strong>Gender:</strong> <span id="gender"></span></p>
+            <p><strong>Address:</strong> <span id="address"></span></p>
+            <p><strong>Phone Number:</strong> <span id="phoneNo"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p><strong>Guardian Name:</strong> <span id="guardianName"></span></p>
+            <p><strong>Guardian Phone:</strong> <span id="guardianPhone"></span></p>
+            <p><strong>Date of Joining:</strong> <span id="doj"></span></p>
+            <p><strong>Branch:</strong> <span id="branch"></span></p>
+        </div>
     </div>
 
-    <!-- Attendance Information -->
-    <div class="bg-white rounded-lg shadow-lg p-4 mb-4">
-        <h2 class="text-lg font-semibold mb-2">Attendance</h2>
-        <ul id="attendanceList" class="list-disc pl-6">
-            <!-- Attendance items will be dynamically added here -->
-        </ul>
-    </div>
+    <!-- JavaScript to fetch and display student details -->
+    <script>
+        // Function to fetch student details from API based on registration number
+        async function fetchStudentDetails(regNo) {
+            try {
+                const response = await fetch(`/api/student/${regNo}`);
+                if (response.ok) {
+                    const data = await response.text();
+                    if (data.trim() === '') {
+                        returnNoDetails();
+                        throw new Error('Empty response');
+                    }
+                    const student = JSON.parse(data);
+                    displayStudentDetails(student);
+                } else {
+                    console.error('Failed to fetch student details:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching student details:', error);
+            }
+        }
 
-    <!-- Marks Information -->
-    <div class="bg-white rounded-lg shadow-lg p-4 mb-4">
-        <h2 class="text-lg font-semibold mb-2">Marks</h2>
-        <table id="marksTable" class="table table-striped">
-            <thead>
-            <tr>
-                <th>Subject</th>
-                <th>Exam Date</th>
-                <th>Marks</th>
-            </tr>
-            </thead>
-            <tbody id="marksBody">
-            <!-- Marks rows will be dynamically added here -->
-            </tbody>
-        </table>
-    </div>
-</div>
 
-<script>
-    // Sample student data
-    const students = [
-        // Insert student data here
-    ];
+        // Function to display student details or show message if student doesn't exist
+        function displayStudentDetails(student) {
+            if (student) {
+                document.getElementById('name').innerText = student.name;
+                document.getElementById('dob').innerText = student.dob;
+                document.getElementById('gender').innerText = student.gender;
+                document.getElementById('address').innerText = student.address;
+                document.getElementById('phoneNo').innerText = student.phoneNo;
+                document.getElementById('email').innerText = student.email;
+                document.getElementById('guardianName').innerText = student.guardianName;
+                document.getElementById('guardianPhone').innerText = student.guardianPhone;
+                document.getElementById('doj').innerText = student.doj;
+                document.getElementById('branch').innerText = student.branch;
+            }
+        }
 
-    // Display student information
-    function displayStudentInfo(student) {
-        document.getElementById('regNo').innerText = student.reg_no;
-        document.getElementById('name').innerText = student.name;
-        document.getElementById('dob').innerText = student.dob;
-        document.getElementById('gender').innerText = student.gender;
-        document.getElementById('address').innerText = student.address;
-        document.getElementById('phoneNo').innerText = student.phone_no;
-        document.getElementById('email').innerText = student.email;
-        document.getElementById('guardianName').innerText = student.guardianName;
-        document.getElementById('guardianPhone').innerText = student.guardianPhone;
-        document.getElementById('doj').innerText = student.doj;
-        document.getElementById('branch').innerText = student.branch;
-    }
+        function returnNoDetails() {
+            document.getElementById('name').innerText = 'Student not found';
+            document.getElementById('dob').innerText = "";
+            document.getElementById('gender').innerText = "";
+            document.getElementById('address').innerText = "";
+            document.getElementById('phoneNo').innerText = "";
+            document.getElementById('email').innerText = "";
+            document.getElementById('guardianName').innerText = "";
+            document.getElementById('guardianPhone').innerText = "";
+            document.getElementById('doj').innerText = "";
+            document.getElementById('branch').innerText = "";
 
-    // Display attendance information
-    function displayAttendance(attendance) {
-        const attendanceList = document.getElementById('attendanceList');
-        attendanceList.innerHTML = '';
-        attendance.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = `${item.date}: ${item.status}`;
-            attendanceList.appendChild(li);
-        });
-    }
+        }
+        // Function to fetch and display student details on button click
+        function fetchAndDisplayStudentDetails() {
+            const regNo = document.getElementById('regNoInput').value;
+            if (regNo) {
+                fetchStudentDetails(regNo);
+            } else {
+                alert('Please enter a registration number.');
+            }
+        }
+    </script>
 
-    // Display marks information
-    function displayMarks(marks) {
-        const marksBody = document.getElementById('marksBody');
-        marksBody.innerHTML = '';
-        marks.forEach(mark => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${mark.subject}</td>
-                <td>${mark.examDate}</td>
-                <td>${mark.score}</td>
-            `;
-            marksBody.appendChild(row);
-        });
-    }
 
-    // Display data for the first student by default
-    displayStudentInfo(students[0]);
-    displayAttendance(students[0].attendance);
-    displayMarks(students[0].marks);
-</script>
 </body>
+
 </html>
