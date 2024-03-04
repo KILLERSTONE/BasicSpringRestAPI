@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.learn.learn.Model.Attendance;
+import com.learn.learn.Model.Student;
 
 public interface AttendanceServices {
     
@@ -12,5 +13,5 @@ public interface AttendanceServices {
     List<Attendance> getDayAttendance(LocalDate date);
 
     void markAttendanceForStudentsOnDate(List<String> regNos,LocalDate date,String status);    
-    
+    void deleteAttendanceByStudent(Student std);
 }

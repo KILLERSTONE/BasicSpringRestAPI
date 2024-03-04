@@ -20,4 +20,6 @@ public interface StudentServices {
     boolean studentExist(String reg_no);
 
     String updateStudentByRegNo(String name,String reg_no);
+
+    void editStudent(String reg_no,Student newStd);
 }

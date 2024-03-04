@@ -12,6 +12,7 @@ public interface MarksServices {
     List<Marks> getMarks(String reg_no);
     List<Marks> getSubjectMarks(String subject,LocalDate examDate);
     void updateMarksForStudentsInExam(String subject, LocalDate examDate, List<String> regNos, int marks);
+    void deleteMarksByStudent(Student std);
 
 
 }

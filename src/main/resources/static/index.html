@@ -16,22 +16,20 @@
     <div class="container mx-auto py-4">
         <h1 class="text-center text-2xl font-bold mb-4">Student Information</h1>
 
+        <!-- Search Form -->
+        <form id="searchForm" class="mb-4">
+            <div class="flex justify-center">
+                <input type="text" id="regNoInput"
+                    class="rounded-l-lg p-2 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
+                    placeholder="Enter Registration Number">
+                <button type="submit"
+                    class="px-8 rounded-r-lg bg-blue-600 text-gray-200 font-bold p-2 uppercase border-blue-600 border-t border-b border-r">Search</button>
+            </div>
+        </form>
+
         <!-- Student Information -->
         <div id="studentDetails" class="bg-white rounded-lg shadow-lg p-4 mb-4">
-            <h2 class="text-lg font-semibold mb-2">Student Details</h2>
-            <p><strong>Registration Number:</strong> <input type="text" id="regNoInput"></p>
-            <button onclick="fetchAndDisplayStudentDetails()">Get Details</button>
-            <hr>
-            <p><strong>Name:</strong> <span id="name"></span></p>
-            <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
-            <p><strong>Gender:</strong> <span id="gender"></span></p>
-            <p><strong>Address:</strong> <span id="address"></span></p>
-            <p><strong>Phone Number:</strong> <span id="phoneNo"></span></p>
-            <p><strong>Email:</strong> <span id="email"></span></p>
-            <p><strong>Guardian Name:</strong> <span id="guardianName"></span></p>
-            <p><strong>Guardian Phone:</strong> <span id="guardianPhone"></span></p>
-            <p><strong>Date of Joining:</strong> <span id="doj"></span></p>
-            <p><strong>Branch:</strong> <span id="branch"></span></p>
+            <!-- Student details will be displayed here -->
         </div>
     </div>
 
@@ -42,12 +40,7 @@
             try {
                 const response = await fetch(`/api/student/${regNo}`);
                 if (response.ok) {
-                    const data = await response.text();
-                    if (data.trim() === '') {
-                        returnNoDetails();
-                        throw new Error('Empty response');
-                    }
-                    const student = JSON.parse(data);
+                    const student = await response.json();
                     displayStudentDetails(student);
                 } else {
                     console.error('Failed to fetch student details:', response.statusText);
@@ -57,47 +50,186 @@
             }
         }
 
-
-        // Function to display student details or show message if student doesn't exist
+        // Function to display student details
         function displayStudentDetails(student) {
-            if (student) {
-                document.getElementById('name').innerText = student.name;
-                document.getElementById('dob').innerText = student.dob;
-                document.getElementById('gender').innerText = student.gender;
-                document.getElementById('address').innerText = student.address;
-                document.getElementById('phoneNo').innerText = student.phoneNo;
-                document.getElementById('email').innerText = student.email;
-                document.getElementById('guardianName').innerText = student.guardianName;
-                document.getElementById('guardianPhone').innerText = student.guardianPhone;
-                document.getElementById('doj').innerText = student.doj;
-                document.getElementById('branch').innerText = student.branch;
+            const studentDetailsContainer = document.getElementById('studentDetails');
+            studentDetailsContainer.innerHTML = ''; // Clear previous content
+
+            const detailsDiv = document.createElement('div');
+
+            // Display student details
+            detailsDiv.innerHTML = `
+                <p><strong>Name:</strong> ${student.name}</p>
+                <p><strong>Date of Birth:</strong> ${student.dob}</p>
+                <p><strong>Gender:</strong> ${student.gender}</p>
+                <p><strong>Address:</strong> ${student.address}</p>
+                <p><strong>Phone Number:</strong> ${student.phoneNo}</p>
+                <p><strong>Email:</strong> ${student.email}</p>
+                <p><strong>Guardian Name:</strong> ${student.guardianName}</p>
+                <p><strong>Guardian Phone:</strong> ${student.guardianPhone}</p>
+                <p><strong>Date of Joining:</strong> ${student.doj}</p>
+                <p><strong>Branch:</strong> ${student.branch}</p>
+            `;
+
+            // Add delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete';
+            deleteButton.addEventListener('click', () => deleteStudent(student.regNo));
+            detailsDiv.appendChild(deleteButton);
+
+            // Add edit button
+            const editButton = document.createElement('button');
+            editButton.innerText = 'Edit';
+            editButton.addEventListener('click', () => showEditForm(student));
+            detailsDiv.appendChild(editButton);
+
+            studentDetailsContainer.appendChild(detailsDiv);
+        }
+
+        // Function to delete a student
+        async function deleteStudent(regNo) {
+            try {
+                const response = await fetch(`/api/student/${regNo}`, { method: 'DELETE' });
+                if (response.ok) {
+                    alert('Student deleted successfully');
+                    // Clear the student details container after deletion
+                    document.getElementById('studentDetails').innerHTML = '';
+                } else {
+                    console.error('Failed to delete student:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error deleting student:', error);
             }
         }
 
-        function returnNoDetails() {
-            document.getElementById('name').innerText = 'Student not found';
-            document.getElementById('dob').innerText = "";
-            document.getElementById('gender').innerText = "";
-            document.getElementById('address').innerText = "";
-            document.getElementById('phoneNo').innerText = "";
-            document.getElementById('email').innerText = "";
-            document.getElementById('guardianName').innerText = "";
-            document.getElementById('guardianPhone').innerText = "";
-            document.getElementById('doj').innerText = "";
-            document.getElementById('branch').innerText = "";
+        // Function to display edit form for a student
+        function showEditForm(student) {
+            const studentDetailsContainer = document.getElementById('studentDetails');
+            studentDetailsContainer.innerHTML = ''; // Clear previous content
 
+            const editForm = document.createElement('form');
+            editForm.innerHTML = `
+            <form id="editForm" class="mb-4">
+                <div>
+                    <p><strong>Name:</strong> ${student.name}</p>
+                    <label for="name">New Name:</label>
+                    <input type="text" id="name" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'name')">Save Name</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Date of Birth:</strong> ${student.dob}</p>
+                    <label for="dob">New Date of Birth:</label>
+                    <input type="date" id="dob" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'dob')">Save Date of Birth</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Gender:</strong> ${student.gender}</p>
+                    <label for="gender">New Gender:</label>
+                    <input type="text" id="gender" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'gender')">Save Gender</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Address:</strong> ${student.address}</p>
+                    <label for="address">New Address:</label>
+                    <input type="text" id="address" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'address')">Save Address</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Phone Number:</strong> ${student.phoneNo}</p>
+                    <label for="phone">New Phone Number:</label>
+                    <input type="text" id="phone" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'phone')">Save Phone Number</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Email:</strong> ${student.email}</p>
+                    <label for="email">New Email:</label>
+                    <input type="email" id="email" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'email')">Save Email</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Guardian Name:</strong> ${student.guardianName}</p>
+                    <label for="guardianName">New Guardian Name:</label>
+                    <input type="text" id="guardianName" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'guardianName')">Save Guardian Name</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Guardian Phone:</strong> ${student.guardianPhone}</p>
+                    <label for="guardianPhone">New Guardian Phone:</label>
+                    <input type="text" id="guardianPhone" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'guardianPhone')">Save Guardian Phone</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Date of Joining:</strong> ${student.doj}</p>
+                    <label for="doj">New Date of Joining:</label>
+                    <input type="date" id="doj" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'doj')">Save Date of Joining</button><br>
+                </div>
+            
+                <div>
+                    <p><strong>Branch:</strong> ${student.branch}</p>
+                    <label for="branch">New Branch:</label>
+                    <input type="text" id="branch" value=""><br>
+                    <button type="button" onclick="saveChanges('${student.regNo}', 'branch')">Save Branch</button><br>
+                </div>
+            </form>
+            
+            `;
+
+            editForm.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const fieldName = button.dataset.field.value;
+                    saveChanges(student.regNo, fieldName);
+                });
+            });
+
+            studentDetailsContainer.appendChild(editForm);
         }
-        // Function to fetch and display student details on button click
-        function fetchAndDisplayStudentDetails() {
+
+        // Function to save changes made to a student
+        async function saveChanges(regNo, field) {
+            const newValue = document.getElementById(field).value;
+
+            try {
+                const response = await fetch(`/api/student/${regNo}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        [field]: newValue
+                    })
+                });
+                if (response.ok) {
+                    alert('Changes saved successfully');
+                    // Fetch and display updated student details
+                    fetchStudentDetails(regNo);
+                } else {
+                    console.error('Failed to save changes:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error saving changes:', error);
+            }
+        }
+
+        // Function to fetch and display all student details on button click
+        document.getElementById('searchForm').addEventListener('submit', (event) => {
+            event.preventDefault();
             const regNo = document.getElementById('regNoInput').value;
             if (regNo) {
                 fetchStudentDetails(regNo);
             } else {
                 alert('Please enter a registration number.');
             }
-        }
+        });
     </script>
-
 
 </body>
 

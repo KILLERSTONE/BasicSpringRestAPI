@@ -81,4 +81,11 @@ public class MarksServiceImpl implements MarksServices {
             marksRepo.save(m);
         }
     }
+
+    @Override
+    public void deleteMarksByStudent(Student std) {
+        List<Marks> marks=marksRepo.findAllByStudent(std);
+        marksRepo.deleteAll(marks);
+
+    }
 }

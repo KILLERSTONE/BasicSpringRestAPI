@@ -80,4 +80,11 @@ public class AttendanceServiceImpl implements AttendanceServices{
             attdRepo.save(attd);
         }
     }
+
+    @Override
+    public void deleteAttendanceByStudent(Student std) {
+        // TODO Auto-generated method stub
+        List<Attendance> attdList=attdRepo.findAllByStudent(std);
+        attdRepo.deleteAll(attdList);
+    }
 }
