@@ -7,14 +7,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
-
 @Entity
-@Table(name="Student")
+@Table(name = "Student")
 public class Student {
 
-    
     @Id
-    @Column(name="reg_no")
+    @Column(name = "reg_no")
     private String regNo;
 
     private String name;
@@ -38,11 +36,11 @@ public class Student {
     private String branch;
 
     @JsonManagedReference
-    @OneToMany(mappedBy="student")
+    @OneToMany(mappedBy = "student")
     private List<Marks> marks;
-    
+
     @JsonManagedReference
-    @OneToMany(mappedBy="student")
+    @OneToMany(mappedBy = "student")
     private List<Attendance> attendance;
 
     public String getRegNo() {
@@ -162,5 +160,7 @@ public class Student {
         this.setBranch(updatedStudent.getBranch());
     }
 
-    
+    public Student() {
+    }
+
 }
