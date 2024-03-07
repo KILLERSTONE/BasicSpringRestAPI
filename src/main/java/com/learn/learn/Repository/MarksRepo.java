@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.learn.learn.Model.Marks;
-import com.learn.learn.Model.Student;
+import com.learn.learn.Model.Student.Student;
 
 @Repository
 public interface MarksRepo extends JpaRepository<Marks,Long>{

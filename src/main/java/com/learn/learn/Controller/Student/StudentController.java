@@ -1,4 +1,4 @@
-package com.learn.learn.Controller;
+package com.learn.learn.Controller.Student;
 
 import java.util.List;
 
@@ -7,12 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.learn.learn.Exception.StudentNotFoundException;
-import com.learn.learn.Model.Attendance;
+import com.learn.learn.Model.Student.Student;
+import com.learn.learn.Model.Student.StudentAttendance;
 import com.learn.learn.Model.Marks;
-import com.learn.learn.Model.Student;
-import com.learn.learn.Service.AttendanceServices;
-import com.learn.learn.Service.MarksServices;
-import com.learn.learn.Service.StudentServices;
+import com.learn.learn.Service.Marks.MarksServices;
+import com.learn.learn.Service.Student.StudentAttendanceServices;
+import com.learn.learn.Service.Student.StudentServices;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ public class StudentController {
     private MarksServices marksServices;
 
     @Autowired
-    private AttendanceServices attendanceServices;
+    private StudentAttendanceServices attendanceServices;
 
     @PostMapping("/student")
     public ResponseEntity<?> saveStudent(@RequestBody Student student) {
@@ -108,7 +108,7 @@ public class StudentController {
     private void saveMarksAndAttendance(Student student) {
         String regNo = student.getRegNo();
         List<Marks> marksList = student.getMarks();
-        List<Attendance> attendanceList = student.getAttendance();
+        List<StudentAttendance> attendanceList = student.getAttendance();
 
         if (marksList != null) {
             for (Marks mark : marksList) {
@@ -118,7 +118,7 @@ public class StudentController {
         }
 
         if (attendanceList != null) {
-            for (Attendance attendance : attendanceList) {
+            for (StudentAttendance attendance : attendanceList) {
                 attendance.setStudent(student);
                 attendanceServices.setAttendance(regNo, attendance);
             }

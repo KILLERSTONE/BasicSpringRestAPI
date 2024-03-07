@@ -8,12 +8,14 @@
 <li> Successfully used abstraction through the use of Interface</li>
 <li>Created Endpoint for the API using a Single Student Controller</li>
 <li>Checked all the endpoints and tested the API along with its integration with DB</li>
+<li>Create a front end to fetch the data</li>
+<li>Perform Security Login task in the portal</li>
+
 </ol>
 
 <h3>TODO: </h3>
 <ol>
-<li>Create a front end to fetch the data</li>
-<li>Perform Security Login task in the portal</li>
+<li>Done with Student aspect, attendance, marks and so on, now going to work with other Users such as Admin, Teacher</li>
 <li>Further learn more about how frontend works along with manipulation</li>
 <li>Perform Spring Security, Create Docker images and so on....</li>
 </ol>

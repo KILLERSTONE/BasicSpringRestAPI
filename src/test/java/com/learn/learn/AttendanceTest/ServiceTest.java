@@ -5,11 +5,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.learn.learn.Model.Attendance;
-import com.learn.learn.Model.Student;
-import com.learn.learn.Repository.AttendanceRepo;
-import com.learn.learn.Repository.StudentRepo;
-import com.learn.learn.Service.AttendanceServiceImpl;
+import com.learn.learn.Model.Student.Student;
+import com.learn.learn.Model.Student.StudentAttendance;
+import com.learn.learn.Repository.Student.StudentAttendanceRepo;
+import com.learn.learn.Repository.Student.StudentRepo;
+import com.learn.learn.Service.Student.StudentAttendanceServiceImpl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,19 +20,19 @@ import static org.mockito.Mockito.when;
 public class ServiceTest {
 
     @Mock
-    private AttendanceRepo attendanceRepo;
+    private StudentAttendanceRepo attendanceRepo;
 
     @Mock
     private StudentRepo  studentRepo;
 
     @InjectMocks
-    private AttendanceServiceImpl attendanceService;
+    private StudentAttendanceServiceImpl attendanceService;
 
     @Test
     public void testSetAttendance() {
         String regNo = "20TEST0001";
         LocalDate date = LocalDate.now();
-        Attendance attendance = new Attendance();
+        StudentAttendance attendance = new StudentAttendance();
         // Set necessary fields in the attendance object for testing
 
         Student student = new Student();
@@ -54,7 +54,7 @@ public class ServiceTest {
         when(studentRepo.findById(regNo)).thenReturn(java.util.Optional.of(student));
         when(attendanceRepo.findAllByStudent(student)).thenReturn(new ArrayList<>());
 
-        List<Attendance> result = attendanceService.getAttendance(regNo);
+        List<StudentAttendance> result = attendanceService.getAttendance(regNo);
         // Add assertions to verify the behavior of the method
     }
 
@@ -63,7 +63,7 @@ public class ServiceTest {
         LocalDate date = LocalDate.now();
         when(attendanceRepo.findAllByDate(date)).thenReturn(new ArrayList<>());
 
-        List<Attendance> result = attendanceService.getDayAttendance(date);
+        List<StudentAttendance> result = attendanceService.getDayAttendance(date);
         // Add assertions to verify the behavior of the method
     }
 
@@ -85,7 +85,7 @@ public class ServiceTest {
 
         when(studentRepo.findAllById(regNos)).thenReturn(students);
         when(attendanceRepo.findByStudentAndDate(student1, date)).thenReturn(null);
-        when(attendanceRepo.findByStudentAndDate(student2, date)).thenReturn(new Attendance());
+        when(attendanceRepo.findByStudentAndDate(student2, date)).thenReturn(new StudentAttendance());
 
         attendanceService.markAttendanceForStudentsOnDate(regNos, date, status);
         // Add assertions to verify the behavior of the method

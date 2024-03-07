@@ -1,9 +1,12 @@
-package com.learn.learn.Model;
+package com.learn.learn.Model.Student;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.learn.learn.Model.Marks;
+import com.learn.learn.Model.Subject;
 
 import jakarta.persistence.*;
 
@@ -35,13 +38,29 @@ public class Student {
 
     private String branch;
 
-    @JsonManagedReference
+    @JsonManagedReference(value="student-marks")
     @OneToMany(mappedBy = "student")
     private List<Marks> marks;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "student")
-    private List<Attendance> attendance;
+    private List<StudentAttendance> attendance;
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_subject",
+        joinColumns = @JoinColumn(name = "student_reg_no"),
+        inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )   
+    private List<Subject> subjects;
+
 
     public String getRegNo() {
         return regNo;
@@ -139,11 +158,11 @@ public class Student {
         this.marks = marks;
     }
 
-    public List<Attendance> getAttendance() {
+    public List<StudentAttendance> getAttendance() {
         return attendance;
     }
 
-    public void setAttendance(List<Attendance> attendance) {
+    public void setAttendance(List<StudentAttendance> attendance) {
         this.attendance = attendance;
     }
 

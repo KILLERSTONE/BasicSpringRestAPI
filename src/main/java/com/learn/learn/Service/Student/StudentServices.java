@@ -1,8 +1,8 @@
-package com.learn.learn.Service;
+package com.learn.learn.Service.Student;
 
 import java.util.List;
 
-import com.learn.learn.Model.Student;
+import com.learn.learn.Model.Student.Student;
 
 public interface StudentServices {
     

@@ -1,4 +1,4 @@
-package com.learn.learn.Service;
+package com.learn.learn.Service.Student;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -7,30 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learn.learn.Exception.StudentNotFoundException;
-import com.learn.learn.Model.Attendance;
-import com.learn.learn.Model.Student;
-import com.learn.learn.Repository.AttendanceRepo;
-import com.learn.learn.Repository.StudentRepo;
+import com.learn.learn.Model.Student.Student;
+import com.learn.learn.Model.Student.StudentAttendance;
+import com.learn.learn.Repository.Student.StudentAttendanceRepo;
+import com.learn.learn.Repository.Student.StudentRepo;
 
 @Service
-public class AttendanceServiceImpl implements AttendanceServices{
+public class StudentAttendanceServiceImpl implements StudentAttendanceServices{
     
     @Autowired
-    private AttendanceRepo attdRepo;
+    private StudentAttendanceRepo attdRepo;
     @Autowired
     private StudentRepo stdRepo;
 
     @Override
-    public void setAttendance(String reg_no, Attendance att) {
+    public void setAttendance(String reg_no, StudentAttendance att) {
         Student std=stdRepo.findById(reg_no).orElse(null);
 
         if(std==null)throw new StudentNotFoundException("No student of this reg no exists");
 
         
-        Attendance attd=attdRepo.findByStudentAndDate(std,att.getDate());
+        StudentAttendance attd=attdRepo.findByStudentAndDate(std,att.getDate());
 
         if(attd==null){
-            attd=new Attendance();
+            attd=new StudentAttendance();
             attd.setStudent(std);
             attd.setDate(att.getDate());
             attd.setStatus(att.getStatus());
@@ -43,7 +43,7 @@ public class AttendanceServiceImpl implements AttendanceServices{
     }
 
     @Override
-    public List<Attendance> getAttendance(String reg_no) {
+    public List<StudentAttendance> getAttendance(String reg_no) {
 
         Student std=stdRepo.findById(reg_no).orElse(null);
 
@@ -55,8 +55,8 @@ public class AttendanceServiceImpl implements AttendanceServices{
     }
 
     @Override
-    public List<Attendance> getDayAttendance(LocalDate date) {
-        List<Attendance> attendances=attdRepo.findAllByDate(date);
+    public List<StudentAttendance> getDayAttendance(LocalDate date) {
+        List<StudentAttendance> attendances=attdRepo.findAllByDate(date);
         return attendances;
         
     }
@@ -66,10 +66,10 @@ public class AttendanceServiceImpl implements AttendanceServices{
         List<Student> students=stdRepo.findAllById(regNos);
 
         for(Student std:students){
-            Attendance attd=attdRepo.findByStudentAndDate(std, date);
+            StudentAttendance attd=attdRepo.findByStudentAndDate(std, date);
 
             if(attd==null){
-                attd=new Attendance();
+                attd=new StudentAttendance();
                 attd.setDate(date);
                 attd.setStatus(status);
                 attd.setStudent(std);
@@ -84,7 +84,7 @@ public class AttendanceServiceImpl implements AttendanceServices{
     @Override
     public void deleteAttendanceByStudent(Student std) {
         // TODO Auto-generated method stub
-        List<Attendance> attdList=attdRepo.findAllByStudent(std);
+        List<StudentAttendance> attdList=attdRepo.findAllByStudent(std);
         attdRepo.deleteAll(attdList);
     }
 }

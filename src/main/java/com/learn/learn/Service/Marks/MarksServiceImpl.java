@@ -1,4 +1,4 @@
-package com.learn.learn.Service;
+package com.learn.learn.Service.Marks;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.learn.learn.Exception.StudentNotFoundException;
 import com.learn.learn.Model.Marks;
-import com.learn.learn.Model.Student;
+import com.learn.learn.Model.Student.Student;
 import com.learn.learn.Repository.MarksRepo;
-import com.learn.learn.Repository.StudentRepo;
+import com.learn.learn.Repository.Student.StudentRepo;
 
 @Service
 public class MarksServiceImpl implements MarksServices {

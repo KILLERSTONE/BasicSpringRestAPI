@@ -1,5 +1,7 @@
 package com.learn.learn.Model;
 
+import com.learn.learn.Enum.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -29,7 +31,7 @@ public class User {
     private String phoneNo;
 
     @Enumerated(EnumType.STRING)
-    private int roleId;
+    private Role roleId;
 
     public long getId() {
         return id;
@@ -71,24 +73,13 @@ public class User {
         this.phoneNo = phoneNo;
     }
 
-    public int getRoleId() {
+    public Role getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(Role roleId) {
         this.roleId = roleId;
     }
 
-    public User() {
-    }
-
-    public User(long id, String username, String password, String email, String phoneNo, int roleId) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.roleId = roleId;
-    }
-
+    public User(){}
 }

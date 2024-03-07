@@ -1,14 +1,15 @@
-package com.learn.learn.Model;
+package com.learn.learn.Model.Student;
 
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.learn.learn.Model.Subject;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Attendance")
-public class Attendance {
+public class StudentAttendance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,12 +17,23 @@ public class Attendance {
 
     private LocalDate date;
 
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
     private String status;
 
-    @JsonBackReference
     @ManyToOne
     @JoinTable(name = "student_reg_no")
     private Student student;
+
+    @ManyToOne
+    @JoinTable(name = "subject_id")
+    private Subject subject;
 
     public long getId() {
         return id;
@@ -55,7 +67,7 @@ public class Attendance {
         this.student = student;
     }
 
-    public Attendance() {
+    public StudentAttendance() {
     }
 
 }

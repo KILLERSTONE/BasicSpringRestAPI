@@ -1,4 +1,4 @@
-package com.learn.learn.Repository;
+package com.learn.learn.Repository.Student;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.learn.learn.Model.Student;
+import com.learn.learn.Model.Student.Student;
 
 @Repository
 public interface StudentRepo extends JpaRepository<Student,String>{

@@ -1,4 +1,4 @@
-package com.learn.learn.Service;
+package com.learn.learn.Service.Student;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learn.learn.Exception.StudentNotFoundException;
-import com.learn.learn.Model.Attendance;
-import com.learn.learn.Model.Student;
-import com.learn.learn.Repository.StudentRepo;
+import com.learn.learn.Model.Student.Student;
+import com.learn.learn.Model.Student.StudentAttendance;
+import com.learn.learn.Repository.Student.StudentRepo;
+import com.learn.learn.Service.Marks.MarksServices;
 
 import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import jakarta.transaction.Transactional;
@@ -21,10 +22,10 @@ public class StudentServicesImpl implements StudentServices {
     @Autowired
     private StudentRepo studentRepo;
 
-    private AttendanceServices attendanceService;
+    private StudentAttendanceServices attendanceService;
     private MarksServices marksService;
 
-    public StudentServicesImpl(AttendanceServices attendanceService, MarksServices marksServices) {
+    public StudentServicesImpl(StudentAttendanceServices attendanceService, MarksServices marksServices) {
         this.attendanceService = attendanceService;
         this.marksService = marksServices;
     }
@@ -49,11 +50,13 @@ public class StudentServicesImpl implements StudentServices {
     }
 
     @Override
-    public Student returnStudent(String reg) {
-        Optional<Student> optionalStudent = studentRepo.findById(reg);
-        return optionalStudent.orElse(null);
+    public Student returnStudent(String reg_no) {
+        if (studentExist(reg_no)) {
+            return studentRepo.findById(reg_no).orElseThrow(StudentNotFoundException::new);
+        }
+        throw new StudentNotFoundException();
     }
-
+    
     @Override
     public List<Student> returnAllStudents() {
         return studentRepo.findAll();
