@@ -18,4 +18,6 @@ public interface TeacherAttendanceRepo extends JpaRepository<TeacherAttendance,L
     List<TeacherAttendance> findAllByTeacher(Teacher teacher);
     
     List<TeacherAttendance> findAllByDate(LocalDate date);
+
+    List<TeacherAttendance> findAllByTeacherId(Long id);
 }

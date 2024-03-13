@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 
 import com.learn.learn.Exception.StudentNotFoundException;
 import com.learn.learn.Model.Student.Student;
 import com.learn.learn.Model.Student.StudentAttendance;
 import com.learn.learn.Model.Marks;
+import com.learn.learn.Model.Subject;
 import com.learn.learn.Service.Marks.MarksServices;
 import com.learn.learn.Service.Student.StudentAttendanceServices;
 import com.learn.learn.Service.Student.StudentServices;
+import com.learn.learn.Service.Subject.SubjectServices;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +31,9 @@ public class StudentController {
 
     @Autowired
     private StudentAttendanceServices attendanceServices;
+
+    @Autowired
+    private SubjectServices subjectServices;
 
     @PostMapping("/student")
     public ResponseEntity<?> saveStudent(@RequestBody Student student) {
@@ -50,7 +56,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all/students")
     public ResponseEntity<?> getAllStudents() {
         try {
             List<Student> students = studentServices.returnAllStudents();
@@ -109,6 +115,13 @@ public class StudentController {
         String regNo = student.getRegNo();
         List<Marks> marksList = student.getMarks();
         List<StudentAttendance> attendanceList = student.getAttendance();
+        List<Subject> subjectList=student.getSubjects();
+
+        if(subjectList!=null){
+            for(Subject sub:subjectList){
+                subjectServices.assignStudentToSubject(sub.getId(),regNo);
+            }
+        }
 
         if (marksList != null) {
             for (Marks mark : marksList) {

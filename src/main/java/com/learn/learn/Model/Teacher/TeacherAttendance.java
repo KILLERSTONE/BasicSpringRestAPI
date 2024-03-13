@@ -31,7 +31,6 @@ public class TeacherAttendance {
     private Teacher teacher;
 
     // Getters and setters
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;

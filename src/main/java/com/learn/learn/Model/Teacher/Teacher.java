@@ -36,7 +36,6 @@ public class Teacher {
 
     private String designation;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "teacher")
     private List<Subject> subjects;
 
@@ -153,4 +152,16 @@ public class Teacher {
     // System.out.println("Teacher is not assigned to the subject");
     // }
     // }
+
+
+    public void updateTeacherInfo(Teacher updatedTeacher) {
+        this.setName(updatedTeacher.getName());
+        this.setDateOfBirth(updatedTeacher.getDateOfBirth());
+        this.setGender(updatedTeacher.getGender());
+        this.setAddress(updatedTeacher.getAddress());
+        this.setPhoneNumber(updatedTeacher.getPhoneNumber());
+        this.setEmail(updatedTeacher.getEmail());
+        this.setDesignation(updatedTeacher.getDesignation());
+    }
+    
 }

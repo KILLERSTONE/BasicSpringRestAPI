@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.learn.learn.Model.Subject;
+import com.learn.learn.Model.Student.Student;
+import com.learn.learn.Model.Teacher.Teacher;
 
 @Repository
 public interface SubjectRepo extends JpaRepository<Subject, Long> {
@@ -23,4 +25,8 @@ public interface SubjectRepo extends JpaRepository<Subject, Long> {
 
     // Query to find all subjects by the name of the student
     List<Subject> findAllByStudentName(String studentName);
+
+    List<Subject> findAllByTeacherId(Long id);
+
+    //List<Subject> findAllByStudentId(String id);
 }

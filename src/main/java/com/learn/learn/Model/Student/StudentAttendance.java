@@ -29,6 +29,7 @@ public class StudentAttendance {
 
     @ManyToOne
     @JoinTable(name = "student_reg_no")
+    @JsonBackReference(value="student-attendances")
     private Student student;
 
     @ManyToOne

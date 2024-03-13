@@ -1,5 +1,6 @@
 package com.learn.learn.Service.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learn.learn.Exception.StudentNotFoundException;
+import com.learn.learn.Model.Subject;
 import com.learn.learn.Model.Student.Student;
 import com.learn.learn.Model.Student.StudentAttendance;
+import com.learn.learn.Repository.SubjectRepo;
 import com.learn.learn.Repository.Student.StudentRepo;
 import com.learn.learn.Service.Marks.MarksServices;
 
 import ch.qos.logback.core.joran.util.beans.BeanUtil;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -21,6 +25,9 @@ public class StudentServicesImpl implements StudentServices {
 
     @Autowired
     private StudentRepo studentRepo;
+
+    @Autowired
+    private SubjectRepo subRepo;
 
     private StudentAttendanceServices attendanceService;
     private MarksServices marksService;
@@ -32,6 +39,15 @@ public class StudentServicesImpl implements StudentServices {
 
     @Override
     public String saveStudent(Student s) {
+
+        List<Subject> savedSubjects=new ArrayList<>();
+
+        for(Subject sub:s.getSubjects()){
+            if(sub.getId()==null)savedSubjects.add(subRepo.save(sub));
+            else savedSubjects.add(sub);
+        }
+
+        s.setSubjects(savedSubjects);
         String reg_no = studentRepo.save(s).getRegNo();
         return reg_no;
     }
@@ -93,4 +109,5 @@ public class StudentServicesImpl implements StudentServices {
             studentRepo.save(newStd);
         }
     }
+
 }

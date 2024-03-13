@@ -22,4 +22,7 @@ public interface StudentServices {
     String updateStudentByRegNo(String name,String reg_no);
 
     void editStudent(String reg_no,Student newStd);
+
+
+
 }

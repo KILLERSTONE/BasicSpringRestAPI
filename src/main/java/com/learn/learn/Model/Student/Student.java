@@ -42,6 +42,7 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private List<Marks> marks;
 
+    @JsonManagedReference(value="student-attendances")
     @OneToMany(mappedBy = "student")
     private List<StudentAttendance> attendance;
 
